@@ -42,3 +42,9 @@ info:
     name: "gateway-server"
     description: "CSN Gateway Server"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      csn:
+        gatewayserver: DEBUG
