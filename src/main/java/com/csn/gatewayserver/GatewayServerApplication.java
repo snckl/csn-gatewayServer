@@ -21,7 +21,9 @@ public class GatewayServerApplication {
 				.route(p -> p
 						.path("/csn/post/**") // Specifies for any request whose	path starts with this will apply.
 						.filters(f -> f.rewritePath("/csn/post/(?<segment>.*)","/${segment}")
-								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())) // rewrite path.
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+								.circuitBreaker(config -> config.setName("postCircuitBreaker")
+										.setFallbackUri("forward:/contactSupport"))) // rewrite path.
 						.uri("lb://POST-SERVICE")) // forwarding to ms named as POST-SERVICE in eureka
 				.route(p -> p
 						.path("/csn/comment-service/**")
