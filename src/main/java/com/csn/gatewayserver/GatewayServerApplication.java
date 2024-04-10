@@ -28,7 +28,7 @@ public class GatewayServerApplication {
 										.setFallbackUri("forward:/contactSupport")))
 						.uri("lb://POST-SERVICE")) // forwarding to ms named as POST-SERVICE in eureka
 				.route(p -> p
-						.path("/csn/comment-service/**")
+						.path("/csn/comment/**")
 						.filters(f -> f.rewritePath("/csn/comment/(?<segment>.*)","/${segment}")
 								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
 								.retry(retryConfig -> retryConfig.setRetries(3)
@@ -36,7 +36,7 @@ public class GatewayServerApplication {
 										.setBackoff(Duration.ofMillis(100),Duration.ofMillis(1000),2,true)))
 						.uri("lb://COMMENT-SERVICE"))
 				.route(p -> p
-						.path("/csn/storage-service/**")
+						.path("/csn/storage/**")
 						.filters(f -> f.rewritePath("/csn/storage/(?<segment>.*)","/${segment}")
 								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
 								.retry(retryConfig -> retryConfig.setRetries(3)
